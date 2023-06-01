@@ -7,6 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.semantics.SemanticsNode
+import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 
@@ -25,7 +27,15 @@ fun App() {
 }
 
 fun main() = application {
+
     Window(onCloseRequest = ::exitApplication) {
         App()
+    }
+}
+
+fun printUiHierarchy(node: SemanticsNode, indent: String = "") {
+    println("$indent${node::class.simpleName}: ${node.boundsInRoot}")
+    node.children.forEach { child ->
+        printUiHierarchy(child, "$indent  ")
     }
 }
